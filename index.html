@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>AIO Telegram Broadcast</title>
+	<link href="css/core.css" rel="stylesheet">
+	<link href="css/demo.css" rel="stylesheet">
+	<link rel="shortcut icon" href="img/icon.png">
+	<meta property="og:image" content="img/logo.png">
+	<link href="css/theme-default.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
+	<meta name="description" content="All-in-One Telegram Broadcast : 🚀 Broadcast Messages to All Telegram Bot Users! 🚀">
+</head>
+<body>
+	<div id="loader">
+		<div class="loaderBlur"></div>
+		<div class="loaderSpinner"></div>
+	</div>
+	<div class="layout-wrapper layout-content-navbar">
+		<div class="layout-container">
+			<div id="menu-blur"></div>
+			<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme"> 
+				<div class="app-brand demo"> 
+					<a class="app-brand-link"> 
+						<span class="app-brand-logo demo">
+							<img width="50px" src="img/touch.png"> 
+						</span> 
+						<span class="app-brand-text menu-text fw-bolder ms-2">Telegram Broadcast</span> 
+					</a> 
+				</div> 
+				<ul class="menu-inner py-1"> 
+					<li class="menu-item active" id="MenuSetBotData"> 
+						<a class="menu-link">
+							<i class="menu-icon fa-solid fa-square-info" aria-hidden="true"></i> 
+							<div data-i18n="Analytics">Set Bot Data</div> 
+						</a> 
+					</li>
+					<li class="menu-item" id="MenuFormattingOptions"> 
+						<a class="menu-link">
+							<i class="menu-icon fa-solid fa-square-info" aria-hidden="true"></i> 
+							<div data-i18n="Analytics">Formatting Options</div> 
+						</a> 
+					</li>
+					<li class="menu-item" id="ContactMenu"> 
+						<a class="menu-link"> 
+							<i class="menu-icon fa-solid fa-envelope" aria-hidden="true"></i> 
+							<div data-i18n="Analytics">Contact</div> 
+						</a> 
+					</li>	
+				</ul> 
+			</aside>
+			<div class="layout-page">
+				<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme d-xl-none" id="layout-navbar"> 
+					<div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"> 
+						<a class="nav-item nav-link px-0 me-xl-4" id="layout-menu-btn"> 
+							<i class="fa-solid fa-bars"></i> 
+						</a> 
+					</div> 
+					<div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse"> 
+						<div class="navbar-nav align-items-center"> 
+							<div class="nav-item d-flex align-items-center">
+								<br> 
+								<h4 style="margin-bottom: 0px;">AIO Telegram Broadcast</h4> 
+							</div> 
+						</div>
+					</div> 
+				</nav>
+				<div class="content-wrapper">
+					<div class="container-xxl flex-grow-1 container-p-y">
+						<div class="card container-xxl" id="main" style="overflow: auto;">
+							<div id="SetBotData">
+								<div class="row">
+									<h4 class="page-title mt-3 mb-3" style="font-weight: bold;">Set Bot Data</h4>
+								</div>
+								<div class="row"> 
+									<div class="col-md-12 mb-3"> 
+										<div class="form-group"> 
+											<label>Bot Token <span style="color: #ff3e1d;">*</span></label> 
+											<input type="text" class="form-control" id="BotToken" placeholder="1234567890:XUWETEUEU_JUHDFFuhfuaAUHAFUuhufaHUAHF" value=""> 
+										</div> 
+									</div>  
+								</div>
+								<div class="row"> 
+									<div class="col-md-12 mb-3"> 
+										<div class="form-group"> 
+											<label>User IDs <span style="color: #ff3e1d;">*</span></label> 
+											<textarea id="UserID" rows="4" class="form-control" placeholder="XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX" ></textarea>
+										</div> 
+									</div>  
+								</div>
+								<div class="row"> 
+									<div class="col-md-6 mb-3"> 
+										<div class="form-group"> 
+											<label>Upload User ID</label>
+											<input type="file" class="form-control" id="UploadUserID" accept="text/plain, application/json"> 
+										</div> 
+									</div>
+									<div class="col-md-6 mb-3"> 
+										<div class="form-group"> 
+											<label>User ID Type <span style="color: #ff3e1d;">*</span></label>
+											<select id="UserIDType" class="form-control"> 
+												<option value="text">Text</option> 
+												<option value="json">Json</option> 
+											</select>											
+										</div> 
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 mb-3"> 
+										<div class="form-group"> 
+											<label>Methods <span style="color: #ff3e1d;">*</span></label>
+											<select id="Methods" class="form-control"> 
+												<option value="sendMessage">Send Message</option> 
+												<option value="sendPhoto">Send Photo</option> 
+												<option value="sendAudio">Send Audio</option> 
+												<option value="sendDocument">Send Document</option> 
+												<option value="sendVideo">Send Video</option> 
+												<option value="sendVoice">Send Voice</option> 
+											</select>											
+										</div> 
+									</div>
+								</div>
+								<div id="MethodsSendMessage">
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Message <span style="color: #ff3e1d;">*</span></label> 
+												<textarea id="text" rows="5" class="form-control" placeholder="Whatever you want to say…" ></textarea>
+											</div> 
+										</div>  
+									</div>
+									<div class="row">
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Parse Mode <span style="color: #ff3e1d;">*</span></label>
+												<select id="parse_mode" class="form-control"> 
+													<option value="Markdown">Markdown</option> 
+													<option value="MarkdownV2">MarkdownV2</option> 
+													<option value="HTML">HTML</option>
+												</select>											
+											</div> 
+										</div>
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Sending Interval <span style="color: #ff3e1d;">*</span></label> 
+												<input type="number" class="form-control" id="loop" placeholder="1000 = 1 sec" value=""> 
+											</div> 
+										</div>
+									</div>
+								</div>	
+								<div id="MethodsSendPhoto" style="display:none;">
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Photo <span style="color: #ff3e1d;">*</span></label>
+												<input type="file" class="form-control" id="photo" accept="image/*"> 
+											</div> 
+										</div>  
+									</div>
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Caption</label> 
+												<textarea id="caption" rows="3" class="form-control" placeholder="Whatever you want to say…" ></textarea>
+											</div> 
+										</div>  
+									</div>
+									<div class="row">
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Parse Mode <span style="color: #ff3e1d;">*</span></label>
+												<select id="parse_mode" class="form-control"> 
+													<option value="Markdown">Markdown</option> 
+													<option value="MarkdownV2">MarkdownV2</option> 
+													<option value="HTML">HTML</option>
+												</select>											
+											</div> 
+										</div>
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Sending Interval <span style="color: #ff3e1d;">*</span></label> 
+												<input type="number" class="form-control" id="loop" placeholder="1000 = 1 sec" value=""> 
+											</div> 
+										</div>
+									</div>
+								</div>
+								<div id="MethodsSendAudio" style="display:none;">
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Audio <span style="color: #ff3e1d;">*</span></label>
+												<input type="file" class="form-control" id="audio" accept="audio/*"> 
+											</div> 
+										</div>  
+									</div>
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Caption</label> 
+												<textarea id="caption" rows="3" class="form-control" placeholder="Whatever you want to say…" ></textarea>
+											</div> 
+										</div>  
+									</div>
+									<div class="row">
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Parse Mode <span style="color: #ff3e1d;">*</span></label>
+												<select id="parse_mode" class="form-control"> 
+													<option value="Markdown">Markdown</option> 
+													<option value="MarkdownV2">MarkdownV2</option> 
+													<option value="HTML">HTML</option>
+												</select>											
+											</div> 
+										</div>
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Sending Interval <span style="color: #ff3e1d;">*</span></label> 
+												<input type="number" class="form-control" id="loop" placeholder="1000 = 1 sec" value=""> 
+											</div> 
+										</div>
+									</div>
+								</div>
+								<div id="MethodsSendDocument" style="display:none;">
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Document <span style="color: #ff3e1d;">*</span></label>
+												<input type="file" class="form-control" id="document" accept="application/*, text/*, font/*"> 
+											</div> 
+										</div>  
+									</div>
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Caption</label> 
+												<textarea id="caption" rows="3" class="form-control" placeholder="Whatever you want to say…" ></textarea>
+											</div> 
+										</div>  
+									</div>
+									<div class="row">
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Parse Mode <span style="color: #ff3e1d;">*</span></label>
+												<select id="parse_mode" class="form-control"> 
+													<option value="Markdown">Markdown</option> 
+													<option value="MarkdownV2">MarkdownV2</option> 
+													<option value="HTML">HTML</option>
+												</select>											
+											</div> 
+										</div>
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Sending Interval <span style="color: #ff3e1d;">*</span></label> 
+												<input type="number" class="form-control" id="loop" placeholder="1000 = 1 sec" value=""> 
+											</div> 
+										</div>
+									</div>
+								</div>
+								<div id="MethodsSendVideo" style="display:none;">
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Video <span style="color: #ff3e1d;">*</span></label>
+												<input type="file" class="form-control" id="video" accept="video/*"> 
+											</div> 
+										</div>  
+									</div>
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Caption</label> 
+												<textarea id="caption" rows="3" class="form-control" placeholder="Whatever you want to say…" ></textarea>
+											</div> 
+										</div>  
+									</div>
+									<div class="row">
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Parse Mode <span style="color: #ff3e1d;">*</span></label>
+												<select id="parse_mode" class="form-control"> 
+													<option value="Markdown">Markdown</option> 
+													<option value="MarkdownV2">MarkdownV2</option> 
+													<option value="HTML">HTML</option>
+												</select>											
+											</div> 
+										</div>
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Sending Interval <span style="color: #ff3e1d;">*</span></label> 
+												<input type="number" class="form-control" id="loop" placeholder="1000 = 1 sec" value=""> 
+											</div> 
+										</div>
+									</div>
+								</div>
+								<div id="MethodsSendVoice" style="display:none;">
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Voice <span style="color: #ff3e1d;">*</span></label>
+												<input type="file" class="form-control" id="voice" accept="audio/*"> 
+											</div> 
+										</div>  
+									</div>
+									<div class="row"> 
+										<div class="col-md-12 mb-3"> 
+											<div class="form-group"> 
+												<label>Caption</label> 
+												<textarea id="caption" rows="3" class="form-control" placeholder="Whatever you want to say…" ></textarea>
+											</div> 
+										</div>  
+									</div>
+									<div class="row">
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Parse Mode <span style="color: #ff3e1d;">*</span></label>
+												<select id="parse_mode" class="form-control"> 
+													<option value="Markdown">Markdown</option> 
+													<option value="MarkdownV2">MarkdownV2</option> 
+													<option value="HTML">HTML</option>
+												</select>											
+											</div> 
+										</div>
+										<div class="col-md-6 mb-3"> 
+											<div class="form-group"> 
+												<label>Sending Interval <span style="color: #ff3e1d;">*</span></label> 
+												<input type="number" class="form-control" id="loop" placeholder="1000 = 1 sec" value=""> 
+											</div> 
+										</div>
+									</div>
+								</div>
+								<div>
+									<a id="Start" href="#Start" class="col-md-12 btn btn-primary mb-3">START</a>
+								</div>
+							</div>
+							
+							<div id="Processing" style="display:none">
+								<div class="row">
+									<h4 class="page-title mt-3 mb-3" style="font-weight: bold;width: unset;">Processing...</h4>
+									<h4 id="percent" class="navbar-nav flex-row align-items-center ms-auto" style="font-weight: bold;width: unset;">0%</h4>
+								</div>
+								<div class="progress mb-3">
+									<div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+								<div class="table-responsive mb-3">
+									<table class="table table-striped table-bordered" style="width:100%">
+										<thead>
+											<tr>
+												<th align="center">Total</th>
+												<th align="center">Compleated</th>
+												<th align="center">Success</th>
+												<th align="center">Failed</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td align="center" id="Total">0</td>
+												<td align="center" id="Compleated">0</td>
+												<td align="center" id="Success">0</td>
+												<td align="center" id="Failed">0</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="row"> 
+									<div class="col-md-12 mb-3"> 
+										<div class="form-group"> 
+											<label>Success IDs <span style="color: #9C27B0;">*</span></label>
+											<div class="copy" onClick="copyIDS('SuccessUserID')"><i class="fa-duotone fa-clipboard"></i></div>
+											<textarea id="SuccessUserID" rows="5" class="form-control" placeholder="XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX" readonly></textarea>
+										</div> 
+									</div>  
+								</div>
+								<div class="row"> 
+									<div class="col-md-12 mb-3"> 
+										<div class="form-group"> 
+											<label>Failed IDs <span style="color: #9C27B0;">*</span></label>
+
+											<div class="copy" onClick="copyIDS('FailedUserID')"><i class="fa-duotone fa-clipboard"></i></div>											
+											<textarea id="FailedUserID" rows="5" class="form-control" placeholder="XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX&#10;XXXXXXXX" readonly></textarea>
+										</div> 
+									</div>  
+								</div>
+								<div class="row"> 
+									<div class="col-md-12 mb-3"> 
+										<div class="form-group"> 
+											<label>Failed Details <span style="color: #9C27B0;">*</span></label>
+											<div class="copy" onClick="copyIDS('FailedDetails')"><i class="fa-duotone fa-clipboard"></i></div>											
+											<textarea id="FailedDetails" rows="5" class="form-control" placeholder="XXXXXXXX => Network error maybe!&#10;XXXXXXXX => Network error maybe!&#10;XXXXXXXX => Network error maybe!&#10;XXXXXXXX => Network error maybe!&#10;XXXXXXXX => Network error maybe!" readonly></textarea>
+										</div> 
+									</div>  
+								</div>
+							</div>	
+							<div id="FormattingOptions" style="display:none">
+								<div class="row">
+									<h4 class="page-title mt-3 mb-3" style="font-weight: bold;width: unset;">Formatting Options</h4>
+								</div>
+								<div class="row">
+									<p>The Bot API supports basic formatting for messages. You can use bold, italic, underlined, strikethrough, and spoiler text, as well as inline links and pre-formatted code in your bots' messages. Telegram clients will render them accordingly. You can specify text entities directly, or use markdown-style or HTML-style formatting.</p>
+									<p>Note that Telegram clients will display an <strong>alert</strong> to the user before opening an inline link ('Open this link?' together with the full URL).</p>
+									<p>Message entities can be nested, providing following restrictions are met:<br>- If two entities have common characters, then one of them is fully contained inside another.<br>- <em>bold</em>, <em>italic</em>, <em>underline</em>, <em>strikethrough</em>, and <em>spoiler</em> entities can contain and can be part of any other entities, except <em>pre</em> and <em>code</em>.<br>- All other entities can't contain each other.</p>
+								</div>
+								<div class="row">
+									<h4 class="page-title mt-3 mb-3" style="font-weight: bold;width: unset;">Markdown</h4>
+								</div>
+								<div class="row">
+									<p>This is a legacy mode, retained for backward compatibility. To use this mode, pass <em>Markdown</em> in the <em>parse_mode</em> field. Use the following syntax in your message:</p>
+									<pre class="form-control" style="width: calc(100% - 30px);margin-left: 15px;" readonly>
+<code>*bold text*
+_italic text_
+[inline URL](http://www.example.com/)
+[inline mention of a user](tg://user?id=123456789)
+`inline fixed-width code`
+```
+pre-formatted fixed-width code block
+```
+```python
+pre-formatted fixed-width code block written in the Python programming language
+```</code>
+									</pre>
+									<p>Please note:</p>
+										<ul style="width: calc(100% - 20px);margin-left: 20px;">
+										<li>Entities must not be nested, use parse mode <a href="#markdownv2-style">MarkdownV2</a> instead.</li>
+										<li>There is no way to specify underline and strikethrough entities, use parse mode <a href="#markdownv2-style">MarkdownV2</a> instead.</li>
+										<li>To escape characters '_', '*', '`', '[' outside of an entity, prepend the characters '\' before them.</li>
+										<li>Escaping inside entities is not allowed, so entity must be closed first and reopened again: use <code>_snake_\__case_</code> for italic <code>snake_case</code> and <code>*2*\**2=4*</code> for bold <code>2*2=4</code>.</li>
+									</ul>
+								</div>
+								<div class="row">
+									<h4 class="page-title mt-3 mb-3" style="font-weight: bold;width: unset;" id="markdownv2-style">MarkdownV2</h4>
+								</div>
+								<div class="row">
+									<p>To use this mode, pass <em>MarkdownV2</em> in the <em>parse_mode</em> field. Use the following syntax in your message:</p>
+									<pre class="form-control" style="width: calc(100% - 30px);margin-left: 15px;" readonly>
+<code>*bold \*text*
+_italic \*text_
+__underline__
+~strikethrough~
+||spoiler||
+*bold _italic bold ~italic bold strikethrough ||italic bold strikethrough spoiler||~ __underline italic bold___ bold*
+[inline URL](http://www.example.com/)
+[inline mention of a user](tg://user?id=123456789)
+![😎](tg://emoji?id=5368324170671202286)
+`inline fixed-width code`
+```
+pre-formatted fixed-width code block
+```
+```python
+pre-formatted fixed-width code block written in the Python programming language
+```</code>
+									</pre>
+									<p>Please note:</p>
+									<ul style="width: calc(100% - 20px);margin-left: 20px;">
+										<li>Any character with code between 1 and 126 inclusively can be escaped anywhere with a preceding '\' character, in which case it is treated as an ordinary character and not a part of the markup. This implies that '\' character usually must be escaped with a preceding '\' character.</li>
+										<li>Inside <code>pre</code> and <code>code</code> entities, all '`' and '\' characters must be escaped with a preceding '\' character.</li>
+										<li>Inside the <code>(...)</code> part of the inline link and custom emoji definition, all ')' and '\' must be escaped with a preceding '\' character.</li>
+										<li>In all other places characters '_', '*', '[', ']', '(', ')', '~', '`', '&gt;', '#', '+', '-', '=', '|', '{', '}', '.', '!' must be escaped with the preceding character '\'.</li>
+										<li>In case of ambiguity between <code>italic</code> and <code>underline</code> entities <code>__</code> is always greadily treated from left to right as beginning or end of <code>underline</code> entity, so instead of <code>___italic underline___</code> use <code>___italic underline_\r__</code>, where <code>\r</code> is a character with code 13, which will be ignored.</li>
+										<li>A valid emoji must be provided as an alternative value for the custom emoji. The emoji will be shown instead of the custom emoji in places where a custom emoji cannot be displayed (e.g., system notifications) or if the message is forwarded by a non-premium user. It is recommended to use the emoji from the <strong>emoji</strong> field of the custom emoji sticker.</li>
+									</ul>
+								</div>
+								<div class="row">
+									<h4 class="page-title mt-3 mb-3" style="font-weight: bold;width: unset;">HTML</h4>
+								</div>
+								<div class="row">
+									<p>To use this mode, pass <em>HTML</em> in the <em>parse_mode</em> field. The following tags are currently supported:</p>
+									<pre class="form-control" style="width: calc(100% - 30px);margin-left: 15px;" readonly>>
+<code>&lt;b&gt;bold&lt;/b&gt;, &lt;strong&gt;bold&lt;/strong&gt;
+&lt;i&gt;italic&lt;/i&gt;, &lt;em&gt;italic&lt;/em&gt;
+&lt;u&gt;underline&lt;/u&gt;, &lt;ins&gt;underline&lt;/ins&gt;
+&lt;s&gt;strikethrough&lt;/s&gt;, &lt;strike&gt;strikethrough&lt;/strike&gt;, &lt;del&gt;strikethrough&lt;/del&gt;
+&lt;span class="tg-spoiler"&gt;spoiler&lt;/span&gt;, &lt;tg-spoiler&gt;spoiler&lt;/tg-spoiler&gt;
+&lt;b&gt;bold &lt;i&gt;italic bold &lt;s&gt;italic bold strikethrough &lt;span class="tg-spoiler"&gt;italic bold strikethrough spoiler&lt;/span&gt;&lt;/s&gt; &lt;u&gt;underline italic bold&lt;/u&gt;&lt;/i&gt; bold&lt;/b&gt;
+&lt;a href="http://www.example.com/"&gt;inline URL&lt;/a&gt;
+&lt;a href="tg://user?id=123456789"&gt;inline mention of a user&lt;/a&gt;
+&lt;tg-emoji emoji-id="5368324170671202286"&gt;😎&lt;/tg-emoji&gt;
+&lt;code&gt;inline fixed-width code&lt;/code&gt;
+&lt;pre&gt;pre-formatted fixed-width code block&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;pre-formatted fixed-width code block written in the Python programming language&lt;/code&gt;&lt;/pre&gt;</code>
+									</pre>
+									<p>Please note:</p>
+									<ul style="width: calc(100% - 20px);margin-left: 20px;">
+										<li>Only the tags mentioned above are currently supported.</li>
+										<li>All <code>&lt;</code>, <code>&gt;</code> and <code>&amp;</code> symbols that are not a part of a tag or an HTML entity must be replaced with the corresponding HTML entities (<code>&lt;</code> with <code>&amp;lt;</code>, <code>&gt;</code> with <code>&amp;gt;</code> and <code>&amp;</code> with <code>&amp;amp;</code>).</li>
+										<li>All numerical HTML entities are supported.</li>
+										<li>The API currently supports only the following named HTML entities: <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>&amp;amp;</code> and <code>&amp;quot;</code>.</li>
+										<li>Use nested <code>pre</code> and <code>code</code> tags, to define programming language for <code>pre</code> entity.</li>
+										<li>Programming language can't be specified for standalone <code>code</code> tags.</li>
+										<li>A valid emoji must be used as the content of the <code>tg-emoji</code> tag. The emoji will be shown instead of the custom emoji in places where a custom emoji cannot be displayed (e.g., system notifications) or if the message is forwarded by a non-premium user. It is recommended to use the emoji from the <strong>emoji</strong> field of the custom emoji sticker.</li>
+									</ul>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/script.js"></script>
+</body>
+</html>
